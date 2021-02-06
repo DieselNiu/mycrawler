@@ -1,6 +1,5 @@
 package com.github.hcsp;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -10,7 +9,6 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import sun.awt.image.ImageWatched;
 
 import java.io.IOException;
 import java.util.ArrayList;
