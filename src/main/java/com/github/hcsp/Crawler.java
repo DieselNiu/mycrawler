@@ -1,6 +1,5 @@
 package com.github.hcsp;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,39 +11,42 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class Crawler {
-    private CrawlerDao dao = new MyBatisCrawlerDao();
+public class Crawler extends Thread {
+    private CrawlerDao dao;
 
-    public void run() throws SQLException, IOException {
-        String link;
+    public Crawler(CrawlerDao dao) {
+        this.dao = dao;
+    }
 
-        while ((link = dao.getNextLinkThenDelete()) != null) {
-            //先从数据库里拿出来一个链接，并从数据库中删除掉，准备处理之
-            if (dao.isLinkedProcessed(link)) {
-                continue;
-            }
+    public void run() {
+        try {
+            String link;
 
-            if (isInterestingLink(link)) {
-                //这是我们感兴趣的，我们只处理新浪站内的链接
-                System.out.println(link);
-                Document doc = httpGetAndParseHtml(link);
-                parseUrlsFromPageAndStoreIntoDatabase(doc);
-                storeIntoDatabaseIfItIsNewPage(doc, link);
-                dao.insertProcessedLink(link);
+            while ((link = dao.getNextLinkThenDelete()) != null) {
+                //先从数据库里拿出来一个链接，并从数据库中删除掉，准备处理之
+                if (dao.isLinkedProcessed(link)) {
+                    continue;
+                }
+
+                if (isInterestingLink(link)) {
+                    //这是我们感兴趣的，我们只处理新浪站内的链接
+                    System.out.println(link);
+                    Document doc = httpGetAndParseHtml(link);
+                    parseUrlsFromPageAndStoreIntoDatabase(doc);
+                    storeIntoDatabaseIfItIsNewPage(doc, link);
+                    dao.insertProcessedLink(link);
 //                dao.updateDatabase(link, "INSERT INTO LINKS_ALREADY_PROCESSED (link) values(?) ");
+                }
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
     }
 
-    @SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
-    public static void  main(String[] args) throws IOException, SQLException {
-        new Crawler().run();
-    }
 
     private void parseUrlsFromPageAndStoreIntoDatabase(Document doc) throws SQLException {
         for (Element aTag : doc.select("a")) {

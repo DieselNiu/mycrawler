@@ -50,6 +50,7 @@ public class MyBatisCrawlerDao implements CrawlerDao {
             return count != 0;
         }
     }
+
     @Override
     public void insertProcessedLink(String link) {
         Map<String, Object> param = new HashMap<>();
