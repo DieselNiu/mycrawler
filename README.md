@@ -5,11 +5,10 @@
 ![](https://img.shields.io/github/forks/DieselNiu/mycrawler?style=plastic)
 ![](https://img.shields.io/github/stars/DieselNiu/mycrawler?style=plastic)
 
+
 ## About the project 
-
----
-
 这是一个特别针对[手机新浪网](https://sina.cn/)的多线程的网络爬虫,并可以用Elasticsearch新闻搜索引擎实现了快速的文本内容搜索.
+
 
 ###  Build With
  * [Docker](https://www.docker.com/)
@@ -60,7 +59,7 @@ mvn verify
 
 ### 效果图：
 
-[![cD9E4J.png](https://z3.ax1x.com/2021/04/12/cD9E4J.png)[![cD9mg1.md.png](https://z3.ax1x.com/2021/04/12/cD9mg1.md.png)](https://imgtu.com/i/cD9mg1)
+![cD9E4J.png](https://z3.ax1x.com/2021/04/12/cD9E4J.png)[![cD9mg1.md.png](https://z3.ax1x.com/2021/04/12/cD9mg1.md.png)](https://imgtu.com/i/cD9mg1)
 
 ### 爬虫逻辑图：
 
